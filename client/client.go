@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"cloud-cade-test/base-library/base_net"
+	"flag"
 	"fmt"
 	"os"
 )
@@ -35,7 +36,9 @@ func sendLoop(chanSend chan []byte, s *base_net.Socket) {
 }
 
 func main() {
-	s, e := base_net.ConnectSocket("127.0.0.1:4567", 4096)
+	addr := flag.String("a", "127.0.0.1:4567", "server ip")
+	flag.Parse()
+	s, e := base_net.ConnectSocket(*addr, 4096)
 	if e != nil {
 		fmt.Printf("connect fail, error: %v, please reset client", e)
 		return
