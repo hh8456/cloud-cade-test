@@ -178,11 +178,11 @@ func TestStoreItem(t *testing.T) {
 	// 6 下标的格子保存道具4,数量是 4
 	// 7 下标的格子保存道具5,数量是 1
 	game.CreateAlliance("player1", "alliance1")
-	t.Logf("已使用的格子数: %d\n\n", game.WarehouseUsed("alliance1"))
+	t.Logf("创建仓库后,使用的格子数: %d\n\n", game.WarehouseUsed("alliance1"))
 
 	// 从第10个格子(下标 9 ), 保存 3 个 道具1
 	game.StoreItem("player1", "0", "3", "9")
-	t.Logf("已使用的格子数: %d\n\n", game.WarehouseUsed("alliance1"))
+	//t.Logf("已使用的格子数: %d\n\n", game.WarehouseUsed("alliance1"))
 	item9 := game.WarehouseItem("alliance1", 9)
 	// 9 下标的格子保存道具1,数量是 3
 	if item9.GetNumber() != 3 || item9.GetItemType() != 1 {

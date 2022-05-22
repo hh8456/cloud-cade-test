@@ -55,6 +55,8 @@ func (c *Client) recvData(binData []byte) {
 	fields := strings.Fields(string(msg.GetData()))
 	logicFunc, ok := c.mapLogicFunc[fields[0]]
 	if ok {
+		// 处理 /createAlliance /allianceList /joinAlliance /dismissAlliance
+		// /increaseCapacity /storeItem /destroyItem /clearup
 		if len(fields) == 1 {
 			msg := logicFunc(c.Name, "")
 			buf, _ := dp.Pack(base_net.NewMsgPackage(msg))
