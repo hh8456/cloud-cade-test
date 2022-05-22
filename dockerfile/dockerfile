@@ -1,0 +1,7 @@
+FROM ubuntu:18.04
+WORKDIR /app
+ADD . /app
+COPY ./data /app
+RUN ["chmod","777","/app/data/server"]
+EXPOSE 4567:4567
+ENTRYPOINT ["/app/data/server"]
