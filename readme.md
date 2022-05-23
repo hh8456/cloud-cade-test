@@ -4,7 +4,7 @@
 所有客户端对象,共同操作几个 map 对象, 这几个 map 对象保存了下面几种关系  
 map1: 公会名 - 公会会长  
 map2: 公会名 - 公会成员列表  
-map3: 玩家   - 所属公会名字  
+map3: 玩家名 - 所属公会名字  
 map4: 公会名 - 公会仓库列表  
 
 玩家的所有操作,都是对上面几个 map 进行数据的读取和写入  
@@ -22,11 +22,11 @@ server - client 使用私有 TCP 协议通信, 协议格式: 前面4个字节 | 
 
 server/gameApp/gameApp.go  
 // 接受客户端的 tcp 连接,并生成一个 Client 对象  
-func (g *GameApp) Listen(addr string) 
+func (g *GameApp) Listen(addr string)  
 
 server/gameApp/client/client.go  
 // 收到客户端发来一个逻辑包后, 网络模块会回调这个函数处理玩家登录和下面几个指令  
-// /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance 
+// /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance  
 // /increaseCapacity /storeItem /destroyItem /clearup  
 func (c *Client) recvData(binData []byte)  
 
@@ -34,10 +34,10 @@ func (c *Client) recvData(binData []byte)
 func (c *Client) exit()  
 
 //公会逻辑 /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance  
-server/gameApp/alliance.go 
+server/gameApp/alliance.go  
 
 //公会仓库逻辑 /increaseCapacity /storeItem /destroyItem /clearup  
-server/gameApp/warehouse.go 
+server/gameApp/warehouse.go  
 
 ## 公会命令测试
 启动 3 个 client, 第一次输入的字符串是名字, 随后就可以输入命令进行测试  
