@@ -33,47 +33,47 @@ func (c *Client) recvData(binData []byte)
 // 客户端断线时,网络模块会回调这个函数
 func (c *Client) exit()
 
-//公会逻辑 /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance
+//公会逻辑 /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance  
 server/gameApp/alliance.go 
 
-//公会仓库逻辑 /increaseCapacity /storeItem /destroyItem /clearup
+//公会仓库逻辑 /increaseCapacity /storeItem /destroyItem /clearup  
 server/gameApp/warehouse.go 
 
 ## 公会命令测试
-启动 3 个 client, 第一次输入的字符串是名字, 随后就可以输入命令进行测试
+启动 3 个 client, 第一次输入的字符串是名字, 随后就可以输入命令进行测试  
+  
+client1 启动后依次输入  
+player1  
+/createAlliance alliance1  
 
-client1 启动后依次输入
-player1 
-/createAlliance alliance1
+client2 启动后依次输入  
+player2  
+/joinAlliance alliance1  
 
-client2 启动后依次输入
-player2
-/joinAlliance alliance1
+client3 启动后依次输入   
+player3  
+/createAlliance alliance3  
 
-client3 启动后依次输入 
-player3
-/createAlliance alliance3
+然后, 在任何一个 client 输入 /allianceList, 都会打印出 alliance1 alliance3  
+client1 和 client2 输入 /whichAlliance, 会打印出 alliance1 和 player1 player2  
+client3 输入 /whichAlliance, 会打印出 alliance3 和 player3  
 
-然后, 在任何一个 client 输入 /allianceList, 都会打印出 alliance1 alliance3
-client1 和 client2 输入 /whichAlliance, 会打印出 alliance1 和 player1 player2
-client3 输入 /whichAlliance, 会打印出 alliance3 和 player3
-
-其他命令测试省略
+其他命令测试省略  
 
 ## 单元测试
-server_test.go 包含了服务端所有逻辑的单元测试, 使用 go test -run TestXXX -v 可以进行查看打印的逻辑信息
+server_test.go 包含了服务端所有逻辑的单元测试, 使用 go test -run TestXXX -v 可以进行查看打印的逻辑信息  
 
 
 ## 部署
-客户端和服务器最好在同一台机器上运行, 个人运行环境是 ubuntu 18
-执行 dockerfile/run.sh 可以一键部署服务端 docker
-服务端默认监听 0.0.0.0:4567
+客户端和服务器最好在同一台机器上运行, 个人运行环境是 ubuntu 18  
+执行 dockerfile/run.sh 可以一键部署服务端 docker  
+服务端默认监听 0.0.0.0:4567  
 
-编译好的客户端是 bin/client, 默认连接 127.0.0.1:4567 
-在终端输入 bin/client -h 可以查看客户端的帮助
+编译好的客户端是 bin/client, 默认连接 127.0.0.1:4567   
+在终端输入 bin/client -h 可以查看客户端的帮助  
 
-如果服务端docker 部署在另外一台机器上, 假设ip 地址是 192.168.1.100:5678
-那么客户端需要带参数执行, 终端中输入 bin/client -a 192.168.1.100:5678
+如果服务端docker 部署在另外一台机器上, 假设ip 地址是 192.168.1.100:5678  
+那么客户端需要带参数执行, 终端中输入 bin/client -a 192.168.1.100:5678  
 
 
 
