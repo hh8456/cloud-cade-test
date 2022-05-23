@@ -1,37 +1,37 @@
 ## 服务端设计思路
 
-服务端对于每个客户端 tcp 连接,都有一个接收协程和一个发送协程
-所有客户端对象,共同操作几个 map 对象, 这几个 map 对象保存了下面几种关系
-map1: 公会名 - 公会会长
-map2: 公会名 - 公会成员列表
-map3: 玩家   - 所属公会名字
-map4: 公会名 - 公会仓库列表
+服务端对于每个客户端 tcp 连接,都有一个接收协程和一个发送协程  
+所有客户端对象,共同操作几个 map 对象, 这几个 map 对象保存了下面几种关系  
+map1: 公会名 - 公会会长  
+map2: 公会名 - 公会成员列表  
+map3: 玩家   - 所属公会名字  
+map4: 公会名 - 公会仓库列表  
 
-玩家的所有操作,都是对上面几个 map 进行数据的读取和写入
+玩家的所有操作,都是对上面几个 map 进行数据的读取和写入  
 
 ### TCP 私有协议和粘包处理
 
-server - client 使用私有 TCP 协议通信, 协议格式: 前面4个字节 | 字符串
-前面 4 个字节表示后面字符串的长度, 比如玩家发送指令 /createAlliance 长度总共是 15 个字节
-那么发给服务端的逻辑包,总长度是 4 + 15 = 19 个字节
-前面 4  个字节格式化成 int 类型后, 值是 15, 即指令 /createAlliance 的长度
-后面 15 个字节就是字符串 "/createAlliance"
-程序中逻辑包最大长度是 4096 字节
+server - client 使用私有 TCP 协议通信, 协议格式: 前面4个字节 | 字符串  
+前面 4 个字节表示后面字符串的长度, 比如玩家发送指令 /createAlliance 长度总共是 15 个字节  
+那么发给服务端的逻辑包,总长度是 4 + 15 = 19 个字节  
+前面 4  个字节格式化成 int 类型后, 值是 15, 即指令 /createAlliance 的长度  
+后面 15 个字节就是字符串 "/createAlliance"  
+程序中逻辑包最大长度是 4096 字节  
 
 ### 代码地图
 
-server/gameApp/gameApp.go
-// 接受客户端的 tcp 连接,并生成一个 Client 对象
+server/gameApp/gameApp.go  
+// 接受客户端的 tcp 连接,并生成一个 Client 对象  
 func (g *GameApp) Listen(addr string) 
 
-server/gameApp/client/client.go
-// 收到客户端发来一个逻辑包后, 网络模块会回调这个函数处理玩家登录和下面几个指令
+server/gameApp/client/client.go  
+// 收到客户端发来一个逻辑包后, 网络模块会回调这个函数处理玩家登录和下面几个指令  
 // /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance 
-// /increaseCapacity /storeItem /destroyItem /clearup
-func (c *Client) recvData(binData []byte)
+// /increaseCapacity /storeItem /destroyItem /clearup  
+func (c *Client) recvData(binData []byte)  
 
-// 客户端断线时,网络模块会回调这个函数
-func (c *Client) exit()
+// 客户端断线时,网络模块会回调这个函数  
+func (c *Client) exit()  
 
 //公会逻辑 /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance  
 server/gameApp/alliance.go 
