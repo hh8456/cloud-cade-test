@@ -280,10 +280,11 @@ func TestClearup(t *testing.T) {
 
 	t.Logf("整理仓库前的道具存放情况:\n")
 
-	for i := 0; i < 30; i++ {
-		item := game.WarehouseItem("alliance1", i)
+	items0 := game.Warehouse("alliance1")
+	for i, item := range items0 {
 		if item != nil {
-			t.Logf("index: %d, itemType: %d, itemNumber: %d\n", i, item.GetItemType(), item.GetNumber())
+			msg, _ := item.ToJson(int32(i))
+			t.Logf("%s\n", msg)
 		}
 	}
 
@@ -292,11 +293,12 @@ func TestClearup(t *testing.T) {
 	//t.Logf("已使用的格子数: %d\n\n", game.WarehouseUsed("alliance1"))
 
 	t.Logf("\n\n整理仓库后的道具存放情况:\n")
-	// 打印仓库中的道具 itemType 和 itemNumber
-	for i := 0; i < 30; i++ {
-		item := game.WarehouseItem("alliance1", i)
+
+	items := game.Warehouse("alliance1")
+	for i, item := range items {
 		if item != nil {
-			t.Logf("index: %d, itemType: %d, itemNumber: %d\n", i, item.GetItemType(), item.GetNumber())
+			msg, _ := item.ToJson(int32(i))
+			t.Logf("%s\n", msg)
 		}
 	}
 }

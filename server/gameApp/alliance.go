@@ -34,7 +34,13 @@ func (g *GameApp) WhichAlliance(name string, param ...string) []byte {
 func (g *GameApp) CreateAlliance(name string, param ...string) []byte {
 	g.lock.Lock()
 	defer g.lock.Unlock()
+
 	allianceName := param[0]
+	if allianceName == "" {
+		msg := []byte("create alliance fail, please input a alliance name ")
+		return msg
+	}
+
 	if _, ok := g.mapAlliance[allianceName]; ok {
 		msg := []byte("alliance name is already use, please input a new alliance name ")
 		return msg

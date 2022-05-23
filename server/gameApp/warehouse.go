@@ -131,6 +131,11 @@ func (g *GameApp) StoreItem(name string, param ...string) []byte {
 	g.lock.Lock()
 	defer g.lock.Unlock()
 	items := g.getWarehoueNonLock(name)
+	if items == nil {
+		msg := []byte("storeItem fail, need use /createAlliance first")
+		return msg
+	}
+
 	itemid, err1 := strconv.ParseInt(param[0], 10, 32)
 	itemNum, err2 := strconv.ParseInt(param[1], 10, 32)
 	index, err3 := strconv.ParseInt(param[2], 10, 32)
@@ -148,7 +153,14 @@ func (g *GameApp) StoreItem(name string, param ...string) []byte {
 
 	tip, ok := g.appendItemNonLock(int32(itemid), int32(itemNum), int32(index), items)
 	if ok {
-		msg := []byte("storeItem success")
+		msg := []byte{}
+		for i, item := range items {
+			if item != nil {
+				msgJson, _ := item.ToJson(int32(i))
+				msg = append(msg, msgJson...)
+			}
+		}
+		// storeItem success
 		return msg
 	} else {
 		msg := []byte(tip)
@@ -317,6 +329,15 @@ func (g *GameApp) Clearup(name string, param ...string) []byte {
 		}
 
 		g.mapAllianceItem[allianceName] = newItems
+		msg := []byte{}
+		for i, item := range newItems {
+			if item != nil {
+				msgJson, _ := item.ToJson(int32(i))
+				msg = append(msg, msgJson...)
+			}
+		}
+
+		return msg
 	}
 
 	msg := []byte("clearup over")
