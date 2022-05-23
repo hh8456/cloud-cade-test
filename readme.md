@@ -20,10 +20,10 @@ server - client 使用私有 TCP 协议通信, 协议格式: 前面4个字节 | 
 
 ### 代码地图
 
-server/gameApp/gameApp.go  
+server/gameApp/gameApp.go:  
 // 接受客户端的 tcp 连接,并生成一个 Client 对象  
 func (g *GameApp) Listen(addr string)  
-
+***
 server/gameApp/client/client.go  
 // 收到客户端发来一个逻辑包后, 网络模块会回调这个函数处理玩家登录和下面几个指令  
 // /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance  
@@ -32,12 +32,12 @@ func (c *Client) recvData(binData []byte)
 
 // 客户端断线时,网络模块会回调这个函数  
 func (c *Client) exit()  
-
-//公会逻辑 /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance  
-server/gameApp/alliance.go  
-
-//公会仓库逻辑 /increaseCapacity /storeItem /destroyItem /clearup  
-server/gameApp/warehouse.go  
+***
+// 公会逻辑 /createAlliance /whichAlliance /allianceList /joinAlliance /dismissAlliance  
+server/gameApp/alliance.go
+***
+// 公会仓库逻辑 /increaseCapacity /storeItem /destroyItem /clearup  
+server/gameApp/warehouse.go
 
 ## 公会命令测试
 启动 3 个 client, 第一次输入的字符串是名字, 随后就可以输入命令进行测试  
@@ -78,8 +78,6 @@ server_test.go 包含了服务端所有逻辑的单元测试, 使用 go test -ru
 
 
 ## 完毕; 身体健康,谢谢阅读
-
-
 
 
 
